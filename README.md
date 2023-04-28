@@ -1,5 +1,11 @@
 # Exif Web
 
+[![CodeQL](https://github.com/zjc17/exif-web/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/zjc17/exif-web/actions/workflows/github-code-scanning/codeql)
+[![Security Scan](https://github.com/zjc17/exif-web/actions/workflows/scan.yaml/badge.svg)](https://github.com/zjc17/exif-web/actions/workflows/scan.yaml)
+[![Release](https://github.com/zjc17/exif-web/actions/workflows/release.yaml/badge.svg)](https://github.com/zjc17/exif-web/actions/workflows/release.yaml)
+[![Go Report Card](https://goreportcard.com/badge/github.com/zjc17/exif-web)](https://goreportcard.com/report/github.com/zjc17/exif-web)
+[![Docker Image](https://img.shields.io/docker/pulls/lovecho/exif-web.svg)](https://hub.docker.com/r/lovecho/exif-web)
+
 [Features](#features)
 •
 [Download](#download)
@@ -10,7 +16,7 @@
 •
 [Credit](#credit)
 
-Lightweight Opensource Exif Analysis Backend written in Golang, with binary size ~ 20MB.
+Lightweight Opensource Exif Analysis Backend written in Golang, with binary size ~ 10MB.
 
 Support Restfull API, WebUI, x86, ARM, Linux, macOS.
 
@@ -68,6 +74,7 @@ Exif parse components:
 - modified javascript version for golang execution, under [Apache-2.0 license], 28/04/2023:
   - allow running in golang
   - https://github.com/zjc17/exif-web
+
 Runtime dependent components:
 - [goja](https://github.com/dop251/goja): ECMAScript 5.1(+) implementation in Go, under [MIT license].
 Web components:
