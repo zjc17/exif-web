@@ -1,0 +1,84 @@
+<!doctype html>
+<html>
+<head>
+    <title>EXIF Web UI</title>
+    <script type="module"
+            src="https://cdn.jsdelivr.net/npm/@freshworks/crayons@v4/dist/crayons/crayons.esm.js"></script>
+    <script nomodule src="https://cdn.jsdelivr.net/npm/@freshworks/crayons@v4/dist/crayons/crayons.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@freshworks/crayons@v4/css/crayons-min.css"/>
+</head>
+<body>
+
+<form method="post" onsubmit id="file-form"
+      enctype="multipart/form-data" style="width: 600px; margin: 0 auto;">
+    <h1 style="text-align: center">EXIF Web UI</h1>
+    <div class="fw-flex fw-flex-column fw-justify-center fw-max-w-10">
+        <fw-file-uploader
+                id="file-uploader-1"
+                text="Upload File"
+                description="or drag and drop your image here"
+                hint="File size must be within 10MB"
+                max-file-size="10"
+                accept=""
+        >
+        </fw-file-uploader>
+        <br/>
+        <fw-button class="fw-b-50" type="submit" color="secondary">Upload file</fw-button>
+    </div>
+    <p>Upload an image to explore its exif information.</p>
+    <p>See the <a href="https://github.com/zjc17/exif-web">documentation/source code</a>.</p>
+</form>
+<fw-data-table id="datatable" is-selectable="false" label="Data table 1"
+               style="max-width: 600px; margin: 0 auto;display: none;">
+</fw-data-table>
+<script>
+    const sampleForm = document.getElementById("file-form");
+    const fileUploader = document.getElementById("file-uploader-1");
+
+    const datatable = document.getElementById('datatable');
+    datatable.columns = [{"key": "name", "text": "Name"}, {"key": "value", "text": "Value"}]
+
+    sampleForm.addEventListener("submit", async (e) => {
+        // Cancel redirection
+        e.preventDefault()
+        // Perform action to send file to a server
+        await fileUploader.getFiles().then(files => {
+            if (!files || files.length != 1) {
+                alert("Please select a single file")
+                return
+            }
+            const file = files[0];
+
+            // custom file reader
+            const reader = new FileReader();
+            reader.onload = function (event) {
+                // Get the first x bytes of the file
+                const buffer = event.target.result.slice(0, 71680);
+
+                let formData = new FormData();
+                formData.append("file", new Blob([buffer]));
+                fetch('/api/v1/parse', {method: "POST", body: formData})
+                    .then(res => res.json())
+                    .then(data => Object.entries(data).map((item, index) => ({
+                        id: index,
+                        name: item[0],
+                        value: item[1]?.toString() || 'null'
+                    })))
+                    .then(data => {
+                        datatable.rows = data;
+                        datatable.style.display = 'block';
+                    })
+                    .catch(error => {
+                        console.log('submit error', error)
+                    })
+            };
+
+            reader.readAsArrayBuffer(file);
+
+
+        })
+        fileUploader.reset(); // reset the form to initial state
+    });
+</script>
+</body>
+</html>

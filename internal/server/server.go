@@ -34,10 +34,14 @@ func Launch(params *LaunchParams) (err error) {
 	router.Use(gzip.Gzip(gzip.DefaultCompression))
 	router.Use(cors.New(params.CorsConfig))
 
+	router.GET("/", func(c *gin.Context) {
+		c.Data(http.StatusOK, "text/html", []byte(PageDocument))
+	})
 	router.GET("/health", func(c *gin.Context) {
 		c.Status(http.StatusOK)
 	})
-	router.GET("/api/v1/parse", v1.Parse)
+	router.GET("/api/v1/parse", v1.GetParse)
+	router.POST("/api/v1/parse", v1.PostParse)
 
 	fmt.Printf("Server started on :%d\n", params.Port)
 	if err = router.Run(fmt.Sprintf(":%d", params.Port)); err != nil {

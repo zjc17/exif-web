@@ -10,6 +10,8 @@
 •
 [Download](#download)
 •
+[Demo](#demo)
+•
 [Usage](#usage)
 •
 [Future](#future)
@@ -19,6 +21,8 @@
 Lightweight Opensource Exif Analytic Backend written in Golang, with binary size ~ 10MB.
 
 Support Restfull API, WebUI, x86, ARM, Linux, macOS.
+
+![](.github/preview-01.png)
 
 ## Features
 
@@ -37,6 +41,10 @@ If you use docker, you can use the following command ([Dockerhub](https://hub.do
 docker pull lovecho/exif-web:latest
 ```
 
+## Demo
+
+You can also check the live demo here [exif.gotool.tech](https://exif.gotool.tech)
+
 ## Usage
 
 Use default parameters launch the api server:
@@ -44,6 +52,12 @@ Use default parameters launch the api server:
 ```bash
 ./exif-web
 ```
+
+### WebUI Usage
+
+After start `exif-web`, open the webui at [localhost:8080](localhost:8080), then
+- upload you local image
+- or parse remote image by Restful API
 
 ### Restful API Usage
 
