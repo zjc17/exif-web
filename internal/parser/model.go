@@ -6,8 +6,8 @@ import (
 )
 
 type ParseResult struct {
-	Num322                  int             `json:"322,omitempty"`
-	Num323                  int             `json:"323,omitempty"`
+	TileWidth               int             `json:"322,omitempty"`
+	TileLength              int             `json:"323,omitempty"`
 	ApertureValue           float64         `json:"ApertureValue,omitempty"`
 	ColorSpace              int             `json:"ColorSpace,omitempty"`
 	ComponentsConfiguration json.RawMessage `json:"ComponentsConfiguration,omitempty"`

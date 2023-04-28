@@ -4,6 +4,7 @@ go 1.20
 
 require (
 	github.com/dop251/goja v0.0.0-20230402114112-623f9dda9079
+	github.com/gin-contrib/cors v1.4.0
 	github.com/gin-contrib/gzip v0.0.6
 	github.com/gin-gonic/gin v1.9.0
 )

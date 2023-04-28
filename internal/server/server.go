@@ -2,6 +2,8 @@ package server
 
 import (
 	"fmt"
+	"github.com/gin-contrib/cors"
+	_ "github.com/gin-contrib/cors"
 	"github.com/gin-contrib/gzip"
 	v1 "github.com/zjc17/exif-web/internal/server/api/v1"
 	"net/http"
@@ -12,13 +14,18 @@ import (
 type (
 	// LaunchParams for gin server
 	LaunchParams struct {
-		Port uint16
+		Port       uint16
+		CorsConfig cors.Config
 	}
 )
 
 func DefaultLaunchParam() *LaunchParams {
+	//TODO config cors by env
+	config := cors.DefaultConfig()
+	config.AllowAllOrigins = true
 	return &LaunchParams{
-		Port: 8080,
+		Port:       8080,
+		CorsConfig: config,
 	}
 }
 
@@ -26,6 +33,8 @@ func Launch(params *LaunchParams) error {
 	gin.SetMode(gin.ReleaseMode)
 	router := gin.Default()
 	router.Use(gzip.Gzip(gzip.DefaultCompression))
+	router.Use(cors.New(params.CorsConfig))
+
 	router.GET("/health", func(c *gin.Context) {
 		c.Status(http.StatusOK)
 	})

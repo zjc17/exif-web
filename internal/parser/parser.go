@@ -55,6 +55,9 @@ func (p parser) ParseRaw(data []byte) (result map[string]any, err error) {
 func (p parser) parse(data goja.ArrayBuffer) (result map[string]any, err error) {
 	_ = p.vm.Set("fileData", data)
 	value, err := p.vm.RunString(fmt.Sprintf("exifr.parse(fileData)"))
+	if err != nil {
+		return
+	}
 	promise := value.Export().(*goja.Promise)
 	result, _ = func() (result map[string]any, err error) {
 		for i := 0; i < 10; i++ {
