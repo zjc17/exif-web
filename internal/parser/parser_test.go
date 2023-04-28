@@ -9,7 +9,7 @@ import (
 )
 
 func TestParse(t *testing.T) {
-	image, _ := fetcher.GetImagePartial("http://127.0.0.1:8080/DSCF3404.jpg", nil)
+	image, _ := fetcher.GetImagePartial("https://image-hosting.zhangjc.tech/img/20220417210600.png", nil)
 	parser := NewParser()
 	timestamp := time.Now()
 	defer func() {
@@ -20,7 +20,7 @@ func TestParse(t *testing.T) {
 }
 
 func TestParser_ParseRaw(t *testing.T) {
-	image, _ := fetcher.GetImagePartial("http://127.0.0.1:8080/DSCF3404.jpg", nil)
+	image, _ := fetcher.GetImagePartial("https://image-hosting.zhangjc.tech/img/20220417210600.png", nil)
 	parser := NewParser()
 	timestamp := time.Now()
 	defer func() {

@@ -5,10 +5,9 @@ import (
 	"github.com/gin-contrib/cors"
 	_ "github.com/gin-contrib/cors"
 	"github.com/gin-contrib/gzip"
+	"github.com/gin-gonic/gin"
 	v1 "github.com/zjc17/exif-web/internal/server/api/v1"
 	"net/http"
-
-	"github.com/gin-gonic/gin"
 )
 
 type (

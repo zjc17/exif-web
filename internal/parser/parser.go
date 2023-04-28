@@ -34,6 +34,7 @@ func (p parser) Parse(data []byte) (parseResult *ParseResult, err error) {
 	}
 	parseResult = &ParseResult{}
 	bytes, err := json.Marshal(result)
+	fmt.Println("json result:", string(bytes))
 	if err != nil {
 		return
 	}
@@ -68,6 +69,7 @@ func (p parser) parse(data goja.ArrayBuffer) (result map[string]any, err error) 
 				result = promise.Result().Export().(map[string]any)
 				return
 			case goja.PromiseStateRejected:
+				fmt.Println("PromiseStateRejected", promise.Result())
 				err = errors.New("rejected")
 				return
 			}
