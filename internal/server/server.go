@@ -28,7 +28,7 @@ func DefaultLaunchParam() *LaunchParams {
 	}
 }
 
-func Launch(params *LaunchParams) error {
+func Launch(params *LaunchParams) (err error) {
 	gin.SetMode(gin.ReleaseMode)
 	router := gin.Default()
 	router.Use(gzip.Gzip(gzip.DefaultCompression))
@@ -38,5 +38,11 @@ func Launch(params *LaunchParams) error {
 		c.Status(http.StatusOK)
 	})
 	router.GET("/api/v1/parse", v1.Parse)
-	return router.Run(fmt.Sprintf(":%d", params.Port))
+
+	if err = router.Run(fmt.Sprintf(":%d", params.Port)); err != nil {
+		fmt.Println("Failed to start server.")
+		return
+	}
+	fmt.Printf("Server started on :%d\n.", params.Port)
+	return
 }

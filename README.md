@@ -10,7 +10,7 @@
 •
 [Credit](#credit)
 
-Lightweight opensource Exif Analysis Backend written in Golang, with binary size ~ 20MB.
+Lightweight Opensource Exif Analysis Backend written in Golang, with binary size ~ 20MB.
 
 Support Restfull API, WebUI, x86, ARM, Linux, macOS.
 
@@ -58,8 +58,8 @@ docker run --rm -it -p 8080:8080 lovecho/exif-web:latest
 ## Future
 
 - [ ] Support read image on local filesystem
-- [ ] a simple web ui as live demo
-- [ ] a simple build in k/v caching system to prevent duplication of parsing
+- [ ] A simple web ui as live demo
+- [ ] A simple built-in k/v caching system to prevent duplication of parsing
 
 ## Credit
 
