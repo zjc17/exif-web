@@ -39,10 +39,10 @@ func Launch(params *LaunchParams) (err error) {
 	})
 	router.GET("/api/v1/parse", v1.Parse)
 
+	fmt.Printf("Server started on :%d\n", params.Port)
 	if err = router.Run(fmt.Sprintf(":%d", params.Port)); err != nil {
 		fmt.Println("Failed to start server.")
 		return
 	}
-	fmt.Printf("Server started on :%d\n.", params.Port)
 	return
 }

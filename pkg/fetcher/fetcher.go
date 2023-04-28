@@ -22,12 +22,15 @@ var (
 	defaultParam = GetImageParam{}
 )
 
+// BuildRequestHeader build request to avoid cors
 func BuildRequestHeader(getHeader func(key string) string) map[string]string {
 	return map[string]string{
 		"referer": getHeader("origin"),
 	}
 }
 
+// GetImagePartial get the first few bytes of the given image url
+// TODO apply rate limit by client
 func GetImagePartial(url string, param *GetImageParam) (data []byte, err error) {
 	if param == nil {
 		param = &defaultParam

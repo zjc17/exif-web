@@ -2,8 +2,8 @@ package v1
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/zjc17/exif-web/internal/fetcher"
-	"github.com/zjc17/exif-web/internal/parser"
+	"github.com/zjc17/exif-web/pkg/fetcher"
+	"github.com/zjc17/exif-web/pkg/parser"
 	"net/http"
 )
 

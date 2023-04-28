@@ -3,7 +3,7 @@ package parser
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/zjc17/exif-web/internal/fetcher"
+	"github.com/zjc17/exif-web/pkg/fetcher"
 	"testing"
 	"time"
 )

@@ -16,7 +16,7 @@
 •
 [Credit](#credit)
 
-Lightweight Opensource Exif Analysis Backend written in Golang, with binary size ~ 10MB.
+Lightweight Opensource Exif Analytic Backend written in Golang, with binary size ~ 10MB.
 
 Support Restfull API, WebUI, x86, ARM, Linux, macOS.
 
@@ -61,6 +61,32 @@ for example, we start a Web UI formatting tool service in Docker:
 docker run --rm -it -p 8080:8080 lovecho/exif-web:latest
 ```
 
+### As an external library
+
+Install dependency
+
+```bash
+go get github.com/zjc17/exif-web
+```
+
+```golang
+package main
+
+import (
+	"fmt"
+	"github.com/zjc17/exif-web/pkg/fetcher"
+	"github.com/zjc17/exif-web/pkg/parser"
+)
+
+func main() {
+	url := ""
+	image, _ := fetcher.GetImagePartial(url, nil)
+	p := parser.NewParser()
+	result, _ := p.Parse(image)
+	fmt.Printf("%+v", result)
+}
+```
+
 ## Future
 
 - [ ] Support read image on local filesystem
@@ -77,5 +103,6 @@ Exif parse components:
 
 Runtime dependent components:
 - [goja](https://github.com/dop251/goja): ECMAScript 5.1(+) implementation in Go, under [MIT license].
+
 Web components:
 - [Gin](https://github.com/gin-gonic/gin): a HTTP web framework written in Go (Golang), under [MIT license]
