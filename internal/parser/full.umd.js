@@ -1,5 +1,5 @@
 /**
- * - This is this modified JavaScript version for golang execution, under [MIT License], 28/04/2023:
+ * - This is this modified JavaScript version for golang execution, under [Apache-2.0 license], 28/04/2023:
  *   - allow running in golang
  *   - https://github.com/zjc17/exif-web
  *
