@@ -87,3 +87,10 @@ type ParseResult struct {
 	Latitude                 float64         `json:"latitude"`
 	Longitude                float64         `json:"longitude"`
 }
+
+func (p *ParseResult) From(jsonStr string) (err error) {
+	if err = json.Unmarshal([]byte(jsonStr), p); err != nil {
+		return
+	}
+	return
+}

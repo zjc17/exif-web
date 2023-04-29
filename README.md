@@ -120,3 +120,6 @@ Runtime dependent components:
 
 Web components:
 - [Gin](https://github.com/gin-gonic/gin): a HTTP web framework written in Go (Golang), under [MIT license]
+
+WebUI components:
+- [Crayons](https://github.com/freshworks/crayons): A UI Kit comprising of web components for building Freshworks Apps! - [License not specified yet]

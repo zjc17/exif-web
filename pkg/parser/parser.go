@@ -12,8 +12,9 @@ import (
 
 type (
 	Parser interface {
-		ParseRaw(data []byte) (result map[string]any, err error)
 		Parse(data []byte) (parseResult *ParseResult, err error)
+		ParseJsonString(data []byte) (jsonStr string, err error)
+		ParseRaw(data []byte) (result map[string]any, err error)
 	}
 
 	parser struct {
@@ -28,19 +29,28 @@ func NewParser() Parser {
 }
 
 func (p parser) Parse(data []byte) (parseResult *ParseResult, err error) {
+	jsonStr, err := p.ParseJsonString(data)
+	if err != nil {
+		return
+	}
+	parseResult = new(ParseResult)
+	err = parseResult.From(jsonStr)
+	if err != nil {
+		return
+	}
+	return
+}
+
+func (p parser) ParseJsonString(data []byte) (jsonStr string, err error) {
 	result, err := p.ParseRaw(data)
 	if err != nil {
 		return
 	}
-	parseResult = &ParseResult{}
 	bytes, err := json.Marshal(result)
-	fmt.Println("json result:", string(bytes))
 	if err != nil {
 		return
 	}
-	if err = json.Unmarshal(bytes, &parseResult); err != nil {
-		return
-	}
+	jsonStr = string(bytes)
 	return
 }
 
