@@ -66,7 +66,7 @@ func (p parser) ParseRaw(data []byte) (result map[string]any, err error) {
 }
 
 func (p parser) newParse(image []byte) (result map[string]any, err error) {
-	done := make(chan map[string]any, 1)
+	done := make(chan map[string]any)
 
 	go func() {
 		timestamp := time.Now()
