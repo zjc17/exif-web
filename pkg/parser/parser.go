@@ -15,6 +15,8 @@ type (
 		Parse(data []byte) (parseResult *ParseResult, err error)
 		ParseJsonString(data []byte) (jsonStr string, err error)
 		ParseRaw(data []byte) (result map[string]any, err error)
+
+		newParse(image []byte) (result map[string]any, err error)
 	}
 
 	parser struct {
@@ -56,11 +58,34 @@ func (p parser) ParseJsonString(data []byte) (jsonStr string, err error) {
 
 func (p parser) ParseRaw(data []byte) (result map[string]any, err error) {
 	data = util.TrimByteArray(data, define.ParseDataLength)
-	result, err = p.parse(p.vm.NewArrayBuffer(data))
+	result, err = p.newParse(data)
 	if err != nil {
 		return
 	}
 	return
+}
+
+func (p parser) newParse(image []byte) (result map[string]any, err error) {
+	done := make(chan map[string]any, 1)
+
+	goCallback := func(result map[string]any) {
+		done <- result
+	}
+
+	_ = p.vm.Set("go_callback", goCallback)
+	_ = p.vm.Set("fileData", p.vm.NewArrayBuffer(image))
+	_, err = p.vm.RunString(`exifr.parse(fileData).then(go_callback)`)
+	if err != nil {
+		return
+	}
+
+	select {
+	case result := <-done: // If the function finishes before the timeout
+		return result, nil
+	case <-time.After(100 * time.Millisecond): // If the timeout expires before the function finishes
+		err = errors.New("timeout")
+		return
+	}
 }
 
 func (p parser) parse(data goja.ArrayBuffer) (result map[string]any, err error) {
@@ -83,7 +108,7 @@ func (p parser) parse(data goja.ArrayBuffer) (result map[string]any, err error) 
 				err = errors.New("rejected")
 				return
 			}
-			time.Sleep(10)
+			time.Sleep(10 * time.Microsecond)
 		}
 		return
 	}()
