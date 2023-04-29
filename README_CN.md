@@ -85,6 +85,12 @@ curl 'http://127.0.0.1:8080/api/v1/parse?url=$IMAGE_URL'
 docker run --rm -it -p 8080:8080 lovecho/exif-web:latest
 ```
 
+### Docker Compose
+
+你可以在项目中的[docker/docker-compose.yml](docker/docker-compose.yml)找到`docker-compose.yml`文件。
+
+请自由地定制它。
+
 ### 作为外部库使用
 
 安装依赖

@@ -85,6 +85,12 @@ for example, we start a Web UI formatting tool service in Docker:
 docker run --rm -it -p 8080:8080 lovecho/exif-web:latest
 ```
 
+### Docker Compose
+
+You can find the `docker-compose.yml` file at [docker/docker-compose.yml](docker/docker-compose.yml) in project.
+
+Feel free to customise it.
+
 ### As an external library
 
 Install dependency
