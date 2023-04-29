@@ -16,9 +16,15 @@
 •
 [Future](#future)
 •
+[Configuration](#configuration)
+•
 [Credit](#credit)
 
-Lightweight Opensource Exif Analytic Backend written in Golang, with binary size ~ 10MB.
+<p style="text-align: center;">
+  <a href="README.md" target="_blank">ENGLISH</a> | <a href="README_CN.md">中文文档</a>
+</p>
+
+Lightweight Opensource Exif Analytic Backend written in Golang, with binary size < 15MB.
 
 Support Restfull API, WebUI, x86, ARM, Linux, macOS.
 
@@ -34,7 +40,8 @@ Support Restfull API, WebUI, x86, ARM, Linux, macOS.
 
 ## Download
 
-Download the binaries for your system and architecture from the [releases page](https://github.com/zjc17/exif-web/releases).
+Download the binaries for your system and architecture from
+the [releases page](https://github.com/zjc17/exif-web/releases).
 
 If you use docker, you can use the following command ([Dockerhub](https://hub.docker.com/r/lovecho/exif-web))
 
@@ -57,6 +64,7 @@ Use default parameters launch the api server:
 ### WebUI Usage
 
 After start `exif-web`, open the webui at [localhost:8080](localhost:8080), then
+
 - upload you local image
 - or parse remote image by Restful API
 
@@ -69,7 +77,8 @@ curl 'http://127.0.0.1:8080/api/v1/parse?url=$IMAGE_URL'
 ```
 
 ### Docker Usage
-There is no difference between using parameters in Docker and the above, 
+
+There is no difference between using parameters in Docker and the above,
 for example, we start a Web UI formatting tool service in Docker:
 
 ```bash
@@ -104,23 +113,37 @@ func main() {
 
 ## Future
 
-- [ ] Support read image on local filesystem
-- [ ] A simple web ui as live demo
-- [ ] A simple built-in k/v caching system to prevent duplication of parsing
+- [x] Support read image on local filesystem
+- [x] A simple web ui as live demo
+- [x] A simple built-in k/v caching system to prevent duplication of parsing
+
+## Configuration
+
+Environment variables:
+
+| Name                 | Default                 | Description      |
+|----------------------|-------------------------|------------------|
+| EXIF_WEB_SQLITE_PATH | `/tmp/exif-web.sqlite3` | sqlite file path |
 
 ## Credit
 
 Exif parse components:
-- [exifr](https://github.com/MikeKovarik/exifr): The fastest and most versatile JavaScript EXIF reading library, under [MIT license]
+
+- [exifr](https://github.com/MikeKovarik/exifr): The fastest and most versatile JavaScript EXIF reading library,
+  under [MIT license]
 - modified javascript version for golang execution, under [Apache-2.0 license], 28/04/2023:
-  - allow running in golang
-  - https://github.com/zjc17/exif-web
+    - allow running in golang
+    - https://github.com/zjc17/exif-web
 
 Runtime dependent components:
+
 - [goja](https://github.com/dop251/goja): ECMAScript 5.1(+) implementation in Go, under [MIT license].
 
 Web components:
+
 - [Gin](https://github.com/gin-gonic/gin): a HTTP web framework written in Go (Golang), under [MIT license]
 
 WebUI components:
-- [Crayons](https://github.com/freshworks/crayons): A UI Kit comprising of web components for building Freshworks Apps! - [License not specified yet]
+
+- [Crayons](https://github.com/freshworks/crayons): A UI Kit comprising of web components for building Freshworks
+  Apps! - [License not specified yet]
