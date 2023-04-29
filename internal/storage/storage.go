@@ -3,6 +3,7 @@ package storage
 import (
 	"database/sql"
 	"fmt"
+	"github.com/zjc17/exif-web/internal/util"
 	_ "modernc.org/sqlite"
 )
 
@@ -17,7 +18,7 @@ type (
 var (
 	db                        *sql.DB
 	defaultInitDatabaseOption = &InitDatabaseOption{
-		SqlitePath:   "/tmp/exif-web.sqlite3",
+		SqlitePath:   util.GetEnvOrDefault("EXIF_WEB_SQLITE_PATH", "/tmp/exif-web.sqlite3"),
 		DatabaseType: SQLite,
 	}
 )
@@ -41,6 +42,7 @@ func InitDatabase(option *InitDatabaseOption) {
 	case InMemorySQLite:
 		database, err = sql.Open("sqlite", ":memory:")
 	case SQLite:
+		fmt.Println("sqlite path:", option.SqlitePath)
 		database, err = sql.Open("sqlite", option.SqlitePath)
 	}
 	if err != nil || database == nil {

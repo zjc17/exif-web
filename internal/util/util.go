@@ -1,5 +1,7 @@
 package util
 
+import "os"
+
 func TrimByteArray(data []byte, length int) []byte {
 
 	if len(data) <= length {
@@ -8,5 +10,13 @@ func TrimByteArray(data []byte, length int) []byte {
 		result := make([]byte, length)
 		copy(result, data)
 		return result
+	}
+}
+
+func GetEnvOrDefault(key string, defaultValue string) string {
+	if value, ok := os.LookupEnv(key); ok {
+		return value
+	} else {
+		return defaultValue
 	}
 }

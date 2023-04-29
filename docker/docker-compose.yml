@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  exif-web:
+    image: lovecho/exif-web:latest
+    container_name: exif-web-1
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    volumes:
+      - data:/data
+    environment:
+      - 'EXIF_WEB_SQLITE_PATH=/data/exif-web.sqlite3'
+      - 'COMPOSE_PROJECT_NAME=exif-web'
+volumes:
+  data:
