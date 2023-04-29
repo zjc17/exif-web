@@ -68,16 +68,20 @@ func (p parser) ParseRaw(data []byte) (result map[string]any, err error) {
 func (p parser) newParse(image []byte) (result map[string]any, err error) {
 	done := make(chan map[string]any, 1)
 
-	goCallback := func(result map[string]any) {
-		done <- result
-	}
-
-	_ = p.vm.Set("go_callback", goCallback)
-	_ = p.vm.Set("fileData", p.vm.NewArrayBuffer(image))
-	_, err = p.vm.RunString(`exifr.parse(fileData).then(go_callback)`)
-	if err != nil {
-		return
-	}
+	go func() {
+		timestamp := time.Now()
+		defer func() {
+			fmt.Println("parse time:", time.Since(timestamp))
+		}()
+		_ = p.vm.Set("go_callback", func(result map[string]any) {
+			done <- result
+		})
+		_ = p.vm.Set("fileData", p.vm.NewArrayBuffer(image))
+		_, err = p.vm.RunString(`exifr.parse(fileData).then(go_callback)`)
+		if err != nil {
+			return
+		}
+	}()
 
 	select {
 	case result := <-done: // If the function finishes before the timeout
