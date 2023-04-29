@@ -30,6 +30,7 @@ Support Restfull API, WebUI, x86, ARM, Linux, macOS.
 - 📷 Files: .jpg, .tif, .png, .heic, .avif, .iiq
 - 📑 Reads only first few bytes for a given url or image data.
 - 🗜️ Easy to deploy: one cross-platform binary file or docker to deploy.
+- Lightweight cache / persistent storage by sqlite.
 
 ## Download
 
