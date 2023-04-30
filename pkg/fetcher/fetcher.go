@@ -37,7 +37,6 @@ func GetImagePartial(url string, param *GetImageParam) (data []byte, err error) 
 	}
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
-		fmt.Println(err)
 		return
 	}
 	for k, v := range param.RequestHeader {

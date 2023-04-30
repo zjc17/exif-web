@@ -32,3 +32,17 @@ func TestGetImagePartial(t *testing.T) {
 	_, err := GetImagePartial(url, param)
 	assert.Nil(t, err)
 }
+
+func TestGetImagePartial_WithoutParam(t *testing.T) {
+
+	url := "https://raw.githubusercontent.com/zjc17/exif-web/main/.github/preview-01.png"
+	_, err := GetImagePartial(url, nil)
+	assert.Nil(t, err)
+}
+
+func TestGetImagePartial_ErrorURL(t *testing.T) {
+
+	url := ""
+	_, err := GetImagePartial(url, nil)
+	assert.NotNil(t, err)
+}
