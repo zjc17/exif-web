@@ -16,7 +16,7 @@ type (
 		ParseJsonString(data []byte) (jsonStr string, err error)
 		ParseRaw(data []byte) (result map[string]any, err error)
 
-		newParse(image []byte) (result map[string]any, err error)
+		parse(image []byte) (result map[string]any, err error)
 	}
 
 	parser struct {
@@ -58,14 +58,14 @@ func (p parser) ParseJsonString(data []byte) (jsonStr string, err error) {
 
 func (p parser) ParseRaw(data []byte) (result map[string]any, err error) {
 	data = util.TrimByteArray(data, define.ParseDataLength)
-	result, err = p.newParse(data)
+	result, err = p.parse(data)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (p parser) newParse(image []byte) (result map[string]any, err error) {
+func (p parser) parse(image []byte) (result map[string]any, err error) {
 	// use buffered channel to prevent race condition
 	done := make(chan map[string]any, 1)
 
@@ -91,31 +91,4 @@ func (p parser) newParse(image []byte) (result map[string]any, err error) {
 		err = errors.New("timeout")
 		return
 	}
-}
-
-func (p parser) parse(data goja.ArrayBuffer) (result map[string]any, err error) {
-	_ = p.vm.Set("fileData", data)
-	value, err := p.vm.RunString(fmt.Sprintf("exifr.parse(fileData)"))
-	if err != nil {
-		return
-	}
-	promise := value.Export().(*goja.Promise)
-	result, _ = func() (result map[string]any, err error) {
-		for i := 0; i < 10; i++ {
-			switch promise.State() {
-			case goja.PromiseStatePending:
-				fmt.Println("PromiseStatePending", promise.Result())
-			case goja.PromiseStateFulfilled:
-				result = promise.Result().Export().(map[string]any)
-				return
-			case goja.PromiseStateRejected:
-				fmt.Println("PromiseStateRejected", promise.Result())
-				err = errors.New("rejected")
-				return
-			}
-			time.Sleep(10 * time.Microsecond)
-		}
-		return
-	}()
-	return
 }

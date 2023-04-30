@@ -80,7 +80,7 @@ func TestParser_NewParser(t *testing.T) {
 func TestParser_Parse2(t *testing.T) {
 	image, _ := fetcher.GetImagePartial("https://image-hosting.zhangjc.tech/img/20220417210600.png", nil)
 	parser := NewParser()
-	result, err := parser.newParse(image)
+	result, err := parser.parse(image)
 	fmt.Println(result, err)
 }
 
