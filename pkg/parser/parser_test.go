@@ -1,6 +1,7 @@
 package parser
 
 import (
+	"context"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -107,5 +108,125 @@ func newParse(image []byte) (result map[string]any, err error) {
 	case <-time.After(100 * time.Millisecond): // If the timeout expires before the function finishes
 		err = errors.New("timeout")
 		return
+	}
+}
+
+func TestCancellation(t *testing.T) {
+	done := make(chan int, 0)
+
+	go func() {
+		defer func() {
+			fmt.Println("job defer")
+		}()
+
+		fmt.Println("job start")
+
+		time.Sleep(100 * time.Millisecond)
+		done <- 0
+
+		fmt.Println("job done")
+	}()
+
+	select {
+	case <-done: // If the function finishes before the timeout
+		fmt.Println("job finished")
+	case <-time.After(50 * time.Millisecond): // If the timeout expires before the function finishes
+		fmt.Println("job timeout")
+		return
+	}
+}
+
+func TestCancellation_NoBuffer(t *testing.T) {
+	done := make(chan int)
+
+	go func() {
+		defer func() {
+			fmt.Println("job defer")
+		}()
+
+		fmt.Println("job start")
+
+		time.Sleep(100 * time.Millisecond)
+		done <- 1
+
+		fmt.Println("job done")
+	}()
+
+	fmt.Println("block start")
+	time.Sleep(200 * time.Millisecond)
+	fmt.Println("block end")
+
+	select {
+	case value := <-done: // If the function finishes before the timeout
+		fmt.Println("job finished", value)
+	case <-time.After(50 * time.Millisecond): // If the timeout expires before the function finishes
+		fmt.Println("job timeout")
+		return
+	}
+}
+
+func TestCancellation_WithBuffer(t *testing.T) {
+	done := make(chan int)
+
+	go func() {
+		defer func() {
+			fmt.Println("job defer")
+		}()
+
+		fmt.Println("job start")
+
+		time.Sleep(100 * time.Millisecond)
+		done <- 1
+
+		fmt.Println("job done")
+	}()
+
+	fmt.Println("block start")
+	time.Sleep(200 * time.Millisecond)
+	fmt.Println("block end")
+
+	select {
+	case value := <-done: // If the function finishes before the timeout
+		fmt.Println("job finished", value)
+	case <-time.After(50 * time.Millisecond): // If the timeout expires before the function finishes
+		fmt.Println("job timeout")
+		return
+	}
+}
+
+func TestCancellation_WithContext(t *testing.T) {
+
+	job := func(ctx context.Context, ch chan<- int) {
+		defer func() {
+			fmt.Println("job defer")
+			close(ch)
+		}()
+
+		for i := 0; ; i++ {
+			select {
+			case <-ctx.Done():
+				fmt.Println("job timeout and exit")
+				return
+			case ch <- i:
+				time.Sleep(1 * time.Millisecond)
+			}
+		}
+	}
+
+	ctx, _ := context.WithTimeout(context.Background(), 5*time.Millisecond)
+	ch := make(chan int)
+
+	go job(ctx, ch)
+
+	for {
+		select {
+		case value, ok := <-ch:
+			if !ok {
+				fmt.Println("chan closed. (job timeout)")
+				return
+			} else {
+				fmt.Println("job:", value)
+			}
+		}
 	}
 }
