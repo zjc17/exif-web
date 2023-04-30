@@ -1,6 +1,7 @@
 # Exif Web
 
 [![CodeQL](https://github.com/zjc17/exif-web/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/zjc17/exif-web/actions/workflows/github-code-scanning/codeql)
+[![codecov](https://github.com/zjc17/exif-web/actions/workflows/codecov.yaml/badge.svg)](https://codecov.io/gh/zjc17/exif-web)
 [![Security Scan](https://github.com/zjc17/exif-web/actions/workflows/scan.yaml/badge.svg)](https://github.com/zjc17/exif-web/actions/workflows/scan.yaml)
 [![Release](https://github.com/zjc17/exif-web/actions/workflows/release.yaml/badge.svg)](https://github.com/zjc17/exif-web/actions/workflows/release.yaml)
 [![Go Report Card](https://goreportcard.com/badge/github.com/zjc17/exif-web)](https://goreportcard.com/report/github.com/zjc17/exif-web)
