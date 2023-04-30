@@ -6,6 +6,11 @@ import (
 	"testing"
 )
 
+func TestInitDatabase_NilParam(t *testing.T) {
+	err := InitDatabase(nil)
+	assert.Nil(t, err)
+}
+
 func TestInitDatabase_InMemorySQLite(t *testing.T) {
 	InitDatabase(&InitDatabaseOption{
 		DatabaseType: InMemorySQLite,
@@ -49,4 +54,12 @@ func Test_Get(t *testing.T) {
 	assert.Nil(t, err)
 	value, err = Get("key")
 	assert.True(t, value == "value-1")
+}
+
+func TestInitDatabase_InitSchemaError(t *testing.T) {
+	err := InitDatabase(&InitDatabaseOption{
+		DatabaseType: SQLite,
+		SqlitePath:   "/not-exist-file-path/not-exist-file",
+	})
+	assert.NotNil(t, err)
 }

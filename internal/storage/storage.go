@@ -28,16 +28,11 @@ const (
 	SQLite
 )
 
-func init() {
-	InitDatabase(nil)
-}
-
-func InitDatabase(option *InitDatabaseOption) {
+func InitDatabase(option *InitDatabaseOption) (err error) {
 	if option == nil {
 		option = defaultInitDatabaseOption
 	}
 	var database *sql.DB
-	var err error
 	switch option.DatabaseType {
 	case InMemorySQLite:
 		database, err = sql.Open("sqlite", ":memory:")
@@ -45,17 +40,17 @@ func InitDatabase(option *InitDatabaseOption) {
 		fmt.Println("sqlite path:", option.SqlitePath)
 		database, err = sql.Open("sqlite", option.SqlitePath)
 	}
-	if err != nil || database == nil {
-		panic("failed to open database")
-	} else {
-		fmt.Println("open database success")
-		db = database
+	if err != nil {
+		return
 	}
-	initSchema()
+	fmt.Println("open database success")
+	db = database
+	err = initSchema()
+	return
 }
 
-func initSchema() {
-	_, err := db.Exec(`
+func initSchema() (err error) {
+	_, err = db.Exec(`
 		CREATE TABLE IF NOT EXISTS kv (
 			id INTEGER PRIMARY KEY AUTOINCREMENT,
 			key VARCHAR(512) NOT NULL UNIQUE,
@@ -64,8 +59,9 @@ func initSchema() {
 		);
 	`)
 	if err != nil {
-		panic("failed to init schema")
+		return
 	}
+	return
 }
 
 func Store(key, value string) (err error) {
