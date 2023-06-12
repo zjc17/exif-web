@@ -8,7 +8,7 @@ require (
 	github.com/gin-contrib/gzip v0.0.6
 	github.com/gin-gonic/gin v1.9.0
 	github.com/stretchr/testify v1.8.1
-	modernc.org/sqlite v1.22.1
+	modernc.org/sqlite v1.23.1
 )
 
 require (
